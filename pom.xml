@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>techarch</groupId>
+    <artifactId>AppPackageChecker</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>20</maven.compiler.source>
+        <maven.compiler.target>20</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <lib.jersey-client.version>2.25.1</lib.jersey-client.version>
+        <lib.activation.version>1.1.1</lib.activation.version>
+        <lib.lombok.version>1.18.26</lib.lombok.version>
+        <lib.jgit.version>6.5.0.202303070854-r</lib.jgit.version>
+        <lib.helidon.version>3.1.0</lib.helidon.version>
+        <lib.slf4j.version>2.0.6</lib.slf4j.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>io.helidon</groupId>
+                <artifactId>helidon-bom</artifactId>
+                <version>${lib.helidon.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.glassfish.jersey</groupId>
+                <artifactId>jersey-bom</artifactId>
+                <version>${lib.jersey-client.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.connectors</groupId>
+            <artifactId>jersey-apache-connector</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>${lib.activation.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lib.lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jgit</groupId>
+            <artifactId>org.eclipse.jgit</artifactId>
+            <version>${lib.jgit.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jgit</groupId>
+            <artifactId>org.eclipse.jgit.ssh.apache</artifactId>
+            <version>${lib.jgit.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.helidon.config</groupId>
+            <artifactId>helidon-config</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.helidon.config</groupId>
+            <artifactId>helidon-config-yaml</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${lib.slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${lib.slf4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
