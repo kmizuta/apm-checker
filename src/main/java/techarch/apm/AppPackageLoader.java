@@ -1,13 +1,15 @@
 package techarch.apm;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import techarch.apm.model.Application;
 import techarch.apm.model.AppPackage;
 import techarch.apm.model.AppPackageIdentity;
 import techarch.apm.repository.Artifactory;
+import techarch.apm.repository.BinaryRepository;
+import techarch.apm.repository.LocalBinaryRepository;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -16,10 +18,10 @@ import java.util.zip.ZipInputStream;
 public class AppPackageLoader {
     private static final String APP_PACKAGE_EXTENSION = "apg";
     private static final String APP_PACKAGE_JSON_PATH = "build/app-package.json";
+    private static final LocalBinaryRepository LOCAL_REPOSITORY = LocalBinaryRepository.builder().build();
+    private final ApplicationCache applicationCache;
 
-    private final InMemoryApplicationCache applicationCache;
-
-    private AppPackageLoader(InMemoryApplicationCache applicationCache) {
+    private AppPackageLoader(ApplicationCache applicationCache) {
         this.applicationCache = applicationCache;
     }
 
@@ -27,18 +29,6 @@ public class AppPackageLoader {
         return new Builder();
     }
 
-    public List<AppPackage> getAppPackages(final Application application) {
-        final List<AppPackage> appPackageList = new ArrayList<>();
-        application.getAppPackages().forEach( (name, appPackage) -> {
-            var repositoryUrl = application.getRepositories().get(appPackage.getRepository());
-            var artifactory = Artifactory.builder().repositoryUrl(repositoryUrl).useProxy().build();
-            var version = VersionUtil.toExactVersion(appPackage.getVersion());
-
-            appPackageList.add(getAppPackage(artifactory, name, version));
-        });
-
-        return appPackageList;
-    }
 
     public List<AppPackage> getAppPackageDependencies(final AppPackageIdentity appPackageIdentity) {
         var appPackage = getAppPackage(appPackageIdentity);
@@ -57,26 +47,43 @@ public class AppPackageLoader {
 
 
 
-    public techarch.apm.model.AppPackage getAppPackage(final Artifactory artifactory, final String appPackageName, final String version) {
+    public AppPackage getAppPackage(final Artifactory artifactory, final String appPackageName, final String version) {
         return getAppPackage(AppPackageIdentity.builder()
                 .artifactory(artifactory)
                 .appPackageName(appPackageName)
                 .version(version).build());
     }
 
-    public techarch.apm.model.AppPackage getAppPackage(final AppPackageIdentity appPackageIdentity) {
-        return applicationCache.getAppPackages().computeIfAbsent(appPackageIdentity, (identity) -> {
-            return fetchAppPackage(appPackageIdentity);
-        });
+    public AppPackage getAppPackage(final AppPackageIdentity appPackageIdentity) {
+        return applicationCache.getAppPackages().computeIfAbsent(appPackageIdentity, (identity) ->
+                fetchAppPackage(appPackageIdentity));
     }
 
-    private techarch.apm.model.AppPackage fetchAppPackage(final AppPackageIdentity appPackageIdentity) {
-        var artifactory = appPackageIdentity.getArtifactory();
+    private AppPackage fetchAppPackage(final AppPackageIdentity appPackageIdentity) {
+        var apgInputStream = fetchAppPackageInputStream(LOCAL_REPOSITORY, appPackageIdentity);
+        if (apgInputStream == null) {
+            apgInputStream = fetchAppPackageInputStream(appPackageIdentity.getArtifactory(), appPackageIdentity);
+            try {
+                LOCAL_REPOSITORY.storeArtifact(apgInputStream, appPackageIdentity.getAppPackageName(), appPackageIdentity.getVersion(), APP_PACKAGE_EXTENSION);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            apgInputStream = fetchAppPackageInputStream(LOCAL_REPOSITORY, appPackageIdentity);
+        }
+
+        return extractAppPackage(apgInputStream);
+
+    }
+
+    private InputStream fetchAppPackageInputStream(final BinaryRepository repository, AppPackageIdentity appPackageIdentity) {
         var appPackageName = appPackageIdentity.getAppPackageName();
         var version = appPackageIdentity.getVersion();
 
+        return repository.getArtifact(appPackageName, version, APP_PACKAGE_EXTENSION);
+    }
+
+    private AppPackage extractAppPackage(final InputStream inputStream) {
         try {
-            var inputStream = artifactory.getArtifact(appPackageName, version, APP_PACKAGE_EXTENSION);
             var zipInputStream = new ZipInputStream(inputStream);
             ZipEntry zipEntry;
             while ((zipEntry = zipInputStream.getNextEntry()) != null) {
@@ -111,9 +118,9 @@ public class AppPackageLoader {
 
 
     public static class Builder {
-        private InMemoryApplicationCache applicationCache;
+        private ApplicationCache applicationCache;
 
-        public Builder applicationCache(InMemoryApplicationCache applicationCache) {
+        public Builder applicationCache(ApplicationCache applicationCache) {
             this.applicationCache = applicationCache;
             return this;
         }

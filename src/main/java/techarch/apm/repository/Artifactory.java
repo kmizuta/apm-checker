@@ -6,17 +6,13 @@ import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.WebTarget;
 import java.io.InputStream;
 
 
 @EqualsAndHashCode
 @Slf4j
-public class Artifactory {
+public class Artifactory implements BinaryRepository {
     public static final String PROXY_SERVER = "http://www-proxy-hqdc.us.oracle.com:80";
 
     private final String repositoryUrl;
@@ -54,6 +50,10 @@ public class Artifactory {
 
     public String getRepositoryUrl() {
         return repositoryUrl;
+    }
+
+    public void storeArtifact(InputStream artifactInputStream, String artifactName, String version, String type) {
+        throw new UnsupportedOperationException();
     }
 
     public static class Builder {

@@ -1,14 +1,11 @@
 package techarch.apm;
 
 import io.helidon.config.Config;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import techarch.apm.model.AppPackageIdentity;
 import techarch.apm.repository.Artifactory;
 
-import java.io.IOException;
-
 public class ApmChecker {
-    public static void main(String[] args) throws GitAPIException, IOException {
+    public static void main(String[] args) {
         var config = Config.create();
         var repoUrlValue = config.get("application.repoUrl");
         var repoUrl = repoUrlValue.asString().get();
@@ -16,12 +13,12 @@ public class ApmChecker {
         checker.run();
     }
 
-    private final InMemoryApplicationCache cache;
+    private final ApplicationCache cache;
     private final ApplicationLoader appLoader;
     private final AppPackageLoader appPkgLoader;
 
     public ApmChecker(final String remoteRepoUrl) {
-        this.cache = InMemoryApplicationCache.builder().build();
+        this.cache = ApplicationCache.builder().build();
         this.appLoader = ApplicationLoader
                 .builder()
                 .applicationCache(cache)
@@ -39,31 +36,28 @@ public class ApmChecker {
         System.out.println("Dependency Tree");
         System.out.println("==============================================");
         var applications = appLoader.getApplications();
-        applications.forEach( (app) -> {
-            app.getAppPackages().forEach( (appPkgName, appAppPkg) -> {
-                var artifactory = Artifactory
-                        .builder()
-                        .repositoryUrl(app.getRepositories().get(appAppPkg.getRepository()))
-                        .useProxy()
-                        .build();
-                var identity = AppPackageIdentity
-                        .builder()
-                        .artifactory(artifactory)
-                        .appPackageName(appPkgName)
-                        .version(VersionUtil.toExactVersion(appAppPkg.getVersion()))
-                        .build();
-                traverseDependencies(0, identity);
-            });
-        });
+        applications.forEach( (app) -> app.getAppPackages().forEach( (appPkgName, appAppPkg) -> {
+            var artifactory = Artifactory
+                    .builder()
+                    .repositoryUrl(app.getRepositories().get(appAppPkg.getRepository()))
+                    .useProxy()
+                    .build();
+            var identity = AppPackageIdentity
+                    .builder()
+                    .artifactory(artifactory)
+                    .appPackageName(appPkgName)
+                    .version(VersionUtil.toExactVersion(appAppPkg.getVersion()))
+                    .build();
+            traverseDependencies(0, identity);
+        }));
 
         System.out.println(); System.out.println();
         System.out.println("==============================================");
         System.out.println("List of App Packages");
         System.out.println("==============================================");
         var appPkgs = cache.getAppPackages();
-        appPkgs.keySet().stream().sorted().forEach( identity -> {
-            System.out.println(String.format("%s:%s", identity.getAppPackageName(), identity.getVersion()));
-        });
+        appPkgs.keySet().stream().sorted().forEach( identity ->
+                System.out.println(String.format("%s:%s", identity.getAppPackageName(), identity.getVersion())));
     }
 
     private void traverseDependencies(int level, AppPackageIdentity identity) {

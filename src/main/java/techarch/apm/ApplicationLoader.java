@@ -9,12 +9,12 @@ import java.util.List;
 
 public class ApplicationLoader {
 
-    private final InMemoryApplicationCache appCache;
+    private final ApplicationCache appCache;
 
     private final String remoteRepoUrl;
     private final String applicationJsonPath;
 
-    private ApplicationLoader(final InMemoryApplicationCache applicationCache, final String remoteRepoUrl, final String applicationJsonPath) {
+    private ApplicationLoader(final ApplicationCache applicationCache, final String remoteRepoUrl, final String applicationJsonPath) {
         this.appCache = applicationCache;
         this.remoteRepoUrl = remoteRepoUrl;
         this.applicationJsonPath = applicationJsonPath;
@@ -44,7 +44,7 @@ public class ApplicationLoader {
 
         private String remoteRepoUrl;
         private String applicationJsonPath = "intg/helm/etc/config/application.json";
-        private InMemoryApplicationCache applicationCache;
+        private ApplicationCache applicationCache;
 
         public Builder remoteRepoUrl(final String remoteRepoUrl) {
             this.remoteRepoUrl = remoteRepoUrl;
@@ -56,7 +56,7 @@ public class ApplicationLoader {
             return this;
         }
 
-        public Builder applicationCache(final InMemoryApplicationCache applicationCache) {
+        public Builder applicationCache(final ApplicationCache applicationCache) {
             this.applicationCache = applicationCache;
             return this;
         }
