@@ -1,4 +1,4 @@
-package techarch.apm.repository;
+package techarch.repository;
 
 import lombok.EqualsAndHashCode;
 import org.eclipse.jgit.api.Git;

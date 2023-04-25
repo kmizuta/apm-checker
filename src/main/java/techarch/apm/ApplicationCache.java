@@ -4,7 +4,7 @@ import lombok.Getter;
 import techarch.apm.model.AppPackage;
 import techarch.apm.model.AppPackageIdentity;
 import techarch.apm.model.Application;
-import techarch.apm.repository.GitRepository;
+import techarch.repository.GitRepository;
 
 import java.util.HashMap;
 import java.util.HashSet;

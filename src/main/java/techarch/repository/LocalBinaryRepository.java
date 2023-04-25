@@ -1,4 +1,4 @@
-package techarch.apm.repository;
+package techarch.repository;
 
 import java.io.File;
 import java.io.FileInputStream;

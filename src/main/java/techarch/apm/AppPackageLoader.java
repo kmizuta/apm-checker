@@ -3,9 +3,9 @@ package techarch.apm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import techarch.apm.model.AppPackage;
 import techarch.apm.model.AppPackageIdentity;
-import techarch.apm.repository.Artifactory;
-import techarch.apm.repository.BinaryRepository;
-import techarch.apm.repository.LocalBinaryRepository;
+import techarch.repository.Artifactory;
+import techarch.repository.BinaryRepository;
+import techarch.repository.LocalBinaryRepository;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

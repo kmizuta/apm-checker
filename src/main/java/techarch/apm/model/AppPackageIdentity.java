@@ -3,7 +3,7 @@ package techarch.apm.model;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import techarch.apm.repository.Artifactory;
+import techarch.repository.Artifactory;
 
 @Builder
 @Getter

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>techarch</groupId>
+    <artifactId>AppPackageChecker</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+    </properties>
+
+    <repositories>
+        <!-- FRE approved list of repository details -->
+        <repository>
+            <id>fa-spectra-tpp-release-maven-local</id>
+            <name>fa-spectra-tpp-release-maven-local</name>
+            <url>https://artifactory.oci.oraclecorp.com/fa-spectra-tpp-release-maven-local/</url>
+        </repository>
+        <repository>
+            <id>fa-spectra-tpp-internal-release-maven-local</id>
+            <name>fa-spectra-tpp-internal-release-maven-local</name>
+            <url>https://artifactory.oci.oraclecorp.com/fa-spectra-tpp-internal-release-maven-local/</url>
+        </repository>
+        <repository>
+            <id>fa-spectra-4pp-release-maven-local</id>
+            <name>fa-spectra-4pp-release-maven-local</name>
+            <url>https://artifactory.oci.oraclecorp.com/fa-spectra-4pp-release-maven-local/</url>
+        </repository>
+        <repository>
+            <id>rwd-maven-virtual</id>
+            <name>rwd-maven-virtual</name>
+            <url>https://artifacthub-phx.oci.oraclecorp.com/rwd-maven-virtual/</url>
+        </repository>
+        <repository>
+            <id>fa-spectra-lib-release-maven-local</id>
+            <name>fa-spectra-lib-release-maven-local</name>
+            <url>https://artifactory.oci.oraclecorp.com/fa-spectra-lib-release-maven-local/</url>
+        </repository>
+        <repository>
+            <id>fa-spectra-lib-snapshot-maven-local</id>
+            <name>fa-spectra-lib-snapshot-maven-local</name>
+            <url>https://artifactory.oci.oraclecorp.com/fa-spectra-lib-snapshot-maven-local/</url>
+        </repository>
+        <repository>
+            <id>olt-release-local</id>
+            <name>olt-release-local</name>
+            <url>https://artifacthub-phx.oci.oraclecorp.com/olt-release-local/</url>
+        </repository>
+    </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>oracle.spectra</groupId>
+                <artifactId>infra-dependencies</artifactId>
+                <version>2307.0.4</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        {{#dependencies}}
+        <dependency>
+            <groupId>{{groupId}}</groupId>
+            <artifactId>{{artifactId}}</artifactId>
+        </dependency>
+        {{/dependencies}}
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-libs</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/libs</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <includeScope>runtime</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
