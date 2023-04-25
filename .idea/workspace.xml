@@ -5,19 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f59ea5bd-9530-4eaa-a069-4467b2cc55cf" name="Changes" comment="Added support for caching the apg files under ~/.m2/repository">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/template.pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/techarch/slaps/RicChecker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/techarch/apm/AppPackageLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/techarch/apm/AppPackageLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/techarch/apm/ApplicationCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/techarch/apm/ApplicationCache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/techarch/apm/model/AppPackageIdentity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/techarch/apm/model/AppPackageIdentity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/techarch/apm/repository/Artifactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/techarch/repository/Artifactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/techarch/apm/repository/BinaryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/techarch/repository/BinaryRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/techarch/apm/repository/GitRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/techarch/repository/GitRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/techarch/apm/repository/LocalBinaryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/techarch/repository/LocalBinaryRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/techarch/apm/ApmChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/techarch/apm/ApmChecker.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
