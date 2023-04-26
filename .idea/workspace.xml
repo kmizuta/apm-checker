@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f59ea5bd-9530-4eaa-a069-4467b2cc55cf" name="Changes" comment="Added README with instructions">
+      <change afterPath="$PROJECT_DIR$/src/main/java/techarch/apm/PromotedAppPackages.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/techarch/apm/ApmChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/techarch/apm/ApmChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/techarch/apm/ApplicationLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/techarch/apm/ApplicationLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/application.yaml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +68,9 @@
     <key name="CreateClassDialog.RecentsKey">
       <recent name="techarch.apm" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="techarch.apm" />
     </key>
@@ -69,7 +78,7 @@
       <recent name="techarch.apm" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.RicChecker">
+  <component name="RunManager" selected="Application.ApmChecker">
     <configuration name="ApmChecker" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="techarch.apm.ApmChecker" />
       <module name="AppPackageChecker" />
@@ -137,8 +146,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.RicChecker" />
         <item itemvalue="Application.ApmChecker" />
+        <item itemvalue="Application.RicChecker" />
         <item itemvalue="Application.Application" />
         <item itemvalue="Application.AppPackage" />
         <item itemvalue="Application.GitRepository" />
@@ -168,7 +177,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682382092062</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added README with instructions">
+      <created>1682509950224</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1682509950224</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

@@ -6,6 +6,10 @@ import techarch.apm.model.AppPackageIdentity;
 import techarch.repository.Artifactory;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 public class ApmChecker {
     public static void main(String[] args) {
@@ -23,6 +27,7 @@ public class ApmChecker {
     private final ApplicationCache cache;
     private final ApplicationLoader appLoader;
     private final AppPackageLoader appPkgLoader;
+    private final PromotedAppPackages promotedAppPackages;
 
     public ApmChecker(final String repoUrl, final String repoPath) {
         this.cache = ApplicationCache.builder().build();
@@ -37,6 +42,7 @@ public class ApmChecker {
                 .builder()
                 .applicationCache(cache)
                 .build();
+        this.promotedAppPackages = PromotedAppPackages.getInstance();
     }
 
     public void run() {
@@ -65,8 +71,28 @@ public class ApmChecker {
         System.out.println("List of App Packages");
         System.out.println("==============================================");
         var appPkgs = cache.getAppPackages();
+        var appPkgVersionMap = new HashMap<String, List<String>>();
         appPkgs.keySet().stream().sorted().forEach( identity ->
-                System.out.println(String.format("%s:%s", identity.getAppPackageName(), identity.getVersion())));
+                appPkgVersionMap.computeIfAbsent(
+                        identity.getAppPackageName(),
+                        k -> new ArrayList<>()).add(identity.getVersion()));
+        appPkgVersionMap.forEach((pkg, versions) -> {
+            Collections.sort(versions);
+            System.out.print(pkg);
+            var concat = ":";
+            for (String version : versions) {
+                System.out.print(concat);
+                System.out.print(version);
+                concat = ",";
+            }
+            System.out.println();
+            if (versions.size() > 1) {
+                System.out.println(String.format("\tMultiple versions. Will deploy %s.", versions.get(versions.size()-1)));
+            }
+            if (! promotedAppPackages.isPromoted(pkg, versions.get(versions.size()-1))) {
+                System.out.println("\tVersion has not been promoted.");
+            }
+        });
     }
 
     private void traverseDependencies(int level, AppPackageIdentity identity) {
